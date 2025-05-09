@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from 'context/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebaseConfig';
+import { db } from 'ConfigFirebase';
 
 export default function AccountScreen() {
   const { user } = useAuth();

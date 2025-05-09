@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebaseConfig';
+import { auth } from 'ConfigFirebase';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -36,6 +36,11 @@ export default function LoginScreen() {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Entrar" onPress={handleLogin} />
+      <Button
+  title="Entrar com telefone"
+  onPress={() => navigation.navigate('PhoneLogin')}
+/>
+
     </View>
   );
 }

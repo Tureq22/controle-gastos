@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../firebaseConfig';
+import { db } from 'ConfigFirebase';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function EditExpenseScreen() {

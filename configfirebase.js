@@ -3,7 +3,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import Constants from 'expo-constants';
 
-const firebaseConfig = {
+const ConfigFirebase = {
   apiKey: Constants.expoConfig.extra.FIREBASE_API_KEY,
   authDomain: Constants.expoConfig.extra.FIREBASE_AUTH_DOMAIN,
   projectId: Constants.expoConfig.extra.FIREBASE_PROJECT_ID,
@@ -12,6 +12,6 @@ const firebaseConfig = {
   appId: Constants.expoConfig.extra.FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(ConfigFirebase);
 export const auth = getAuth(app);
 export const db = getFirestore(app);

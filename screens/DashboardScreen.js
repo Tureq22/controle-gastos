@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Button, SectionList } from 'react-native';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
-import { db } from '../../../firebaseConfig';
-import { useAuth } from '../context/AuthContext';
+import { db } from 'ConfigFirebase';
+import { useAuth } from 'context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { deleteDoc, doc } from 'firebase/firestore';
@@ -55,6 +55,17 @@ export default function DashboardScreen() {
           <View style={styles.item}>
             <Text>{item.description} - R$ {item.value.toFixed(2)}</Text>
             <Button title="Editar" onPress={() => navigation.navigate('EditExpense', { expense: item })} />
+                <Button
+  title="Excluir"
+  color="red"
+  onPress={async () => {
+    try {
+      await deleteDoc(doc(db, 'expenses', item.id));
+    } catch (err) {
+      console.error('Erro ao deletar:', err);
+    }
+  }}
+/>
           </View>
         )}
         renderSectionHeader={({ section: { title } }) => (
