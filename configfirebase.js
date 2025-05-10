@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore } from "firebase/firestore";
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
-const ConfigFirebase = {
+const firebaseConfig = {
   apiKey: Constants.expoConfig.extra.FIREBASE_API_KEY,
   authDomain: Constants.expoConfig.extra.FIREBASE_AUTH_DOMAIN,
   projectId: Constants.expoConfig.extra.FIREBASE_PROJECT_ID,
@@ -12,6 +14,18 @@ const ConfigFirebase = {
   appId: Constants.expoConfig.extra.FIREBASE_APP_ID,
 };
 
-const app = initializeApp(ConfigFirebase);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+
+let auth;
+if (Platform.OS === 'ios') {
+  const { getAuth } = require("firebase/auth");
+  auth = getAuth(app);
+} else {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage)
+  });
+}
+
+const db = getFirestore(app);
+
+export { auth, db };

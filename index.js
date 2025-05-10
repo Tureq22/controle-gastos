@@ -1,40 +1,27 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './screens/loginscreen';
-import DashboardScreen from './screens/DashboardScreen';
-import AddExpenseScreen from './screens//addexpensivescreen';
-import EditExpenseScreen from './screens/EditExpensiveScreen';
-import AccountScreen from './screens/accountscreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen'; 
-import { useAuth } from './context/AuthContext';
+import 'expo-asset'; // Importação recomendada para assets do Expo
+import { registerRootComponent } from 'expo';
+import { AppRegistry, LogBox } from 'react-native';
+import App from './App';
 
-const Stack = createNativeStackNavigator();
+// Ignora warnings específicos (opcional)
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  'AsyncStorage has been extracted from react-native',
+]);
 
-export default function Routes() {
-  const { user, loading } = useAuth();
+/** 
+ * Configuração inicial antes do app carregar
+ * Pode ser usado para inicializações assíncronas
+ */
+function setup() {
+  // Adicione aqui qualquer inicialização necessária
+  return App;
+}
 
-  if (loading) return null;
+// Registra o componente principal
+registerRootComponent(App);
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {user ? (
-          <>
-            <Stack.Screen name="Dashboard" component={DashboardScreen} />
-            <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
-            <Stack.Screen name="EditExpense" component={EditExpenseScreen} />
-            <Stack.Screen name="Account" component={AccountScreen} />
-          </>
-        ) : (
-            <>
-            {/* Tela de Login e Registro */}
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+// Hot reload para desenvolvimento (Android)
+if (module.hot) {
+  module.hot.accept();
 }

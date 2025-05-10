@@ -8,13 +8,18 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+ useEffect(() => {
+  const timer = setTimeout(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
       setLoading(false);
     });
-    return () => unsubscribe();
-  }, []);
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
+  }, Platform.OS === 'ios' ? 300 : 0); // Delay para iOS
+}, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

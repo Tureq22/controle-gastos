@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-import { firebaseConfig } from 'ConfigFirebase';
+import { firebaseConfig } from '../configfirebase';
 
 const auth = getAuth();
 
