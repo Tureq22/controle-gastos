@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from '../screens/LoginScreen';
-import DashboardScreen from '../screens/DashboardScreen';
-import AddExpenseScreen from '../screens/AddExpenseScreen';
-import EditExpenseScreen from '../screens/EditExpenseScreen';
-import AccountScreen from '../screens/AccountScreen';
-import ForgotPasswordScreen from '../screens/ForgotPasswordScreen'; 
-import { useAuth } from '../context/AuthContext';
+import LoginScreen from './screens/loginscreen';
+import DashboardScreen from './screens/DashboardScreen';
+import AddExpenseScreen from './screens//addexpensivescreen';
+import EditExpenseScreen from './screens/EditExpensiveScreen';
+import AccountScreen from './screens/accountscreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen'; 
+import { useAuth } from './context/AuthContext';
 
 const Stack = createNativeStackNavigator();
 

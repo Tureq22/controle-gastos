@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Button, SectionList } from 'react-native';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
-import { db } from 'ConfigFirebase';
-import { useAuth } from 'context/AuthContext';
+import { db } from '../configfirebase';
+import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 import { deleteDoc, doc } from 'firebase/firestore';

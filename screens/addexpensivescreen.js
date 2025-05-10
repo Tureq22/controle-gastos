@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { db } from 'ConfigFirebase';
-import { useAuth } from 'context/AuthContext';
+import { db } from '../configfirebase';
+import { useAuth } from '../context/AuthContext'
 import { useNavigation } from '@react-navigation/native';
 
 export default function AddExpenseScreen() {
