@@ -7,7 +7,6 @@ import AddExpenseScreen from './screens/addexpensivescreen';
 import EditExpenseScreen from './screens/EditExpensiveScreen';
 import AccountScreen from './screens/accountscreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import PhoneLoginScreen from './screens/PhoneLoginScreen';
 import { useAuth } from './context/AuthContext';
 
 const Stack = createNativeStackNavigator();
@@ -31,7 +30,6 @@ export default function Routes() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-          <Stack.Screen name="PhoneLogin" component={PhoneLoginScreen} />
         </>
       )}
     </Stack.Navigator>

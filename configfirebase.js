@@ -3,7 +3,6 @@ import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore } from "firebase/firestore";
 import Constants from 'expo-constants';
-import { Platform } from 'react-native';
 
 const firebaseConfig = {
   apiKey: Constants.expoConfig.extra.FIREBASE_API_KEY,
@@ -16,15 +15,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-let auth;
-if (Platform.OS === 'ios') {
-  const { getAuth } = require("firebase/auth");
-  auth = getAuth(app);
-} else {
-  auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(AsyncStorage)
-  });
-}
+// 🔥 ESSENCIAL: inicialização do auth com persistência para React Native
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 
 const db = getFirestore(app);
 

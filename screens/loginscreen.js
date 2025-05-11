@@ -36,10 +36,7 @@ export default function LoginScreen() {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Entrar" onPress={handleLogin} />
-      <Button
-  title="Entrar com telefone"
-  onPress={() => navigation.navigate('PhoneLogin')}
-/>
+      
 
     </View>
   );
