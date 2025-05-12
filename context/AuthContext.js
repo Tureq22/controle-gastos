@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
  useEffect(() => {
-  const timer = setTimeout(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
@@ -18,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       clearTimeout(timer);
       unsubscribe();
     };
-  }, Platform.OS === 'ios' ? 300 : 0); // Delay para iOS
+ 
 }, []);
 
   return (
