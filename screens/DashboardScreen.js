@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Button, SectionList } from 'react-native';
-import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+import { View, Text, SectionList, StyleSheet, Button } from 'react-native';
+import { collection, query, where, onSnapshot, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../configfirebase';
 import { useAuth } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
-import { deleteDoc, doc } from 'firebase/firestore';
-
 
 export default function DashboardScreen() {
   const { user } = useAuth();
@@ -24,11 +22,17 @@ export default function DashboardScreen() {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      console.log('Gastos carregados:', data); // Debug
 
       const grouped = data.reduce((groups, expense) => {
-        const date = format(expense.date.toDate(), 'dd/MM/yyyy');
-        if (!groups[date]) groups[date] = [];
-        groups[date].push(expense);
+        try {
+          const dateObj = expense.date?.toDate ? expense.date.toDate() : new Date();
+          const date = format(dateObj, 'dd/MM/yyyy');
+          if (!groups[date]) groups[date] = [];
+          groups[date].push(expense);
+        } catch (err) {
+          console.warn('Erro ao processar gasto:', expense, err);
+        }
         return groups;
       }, {});
 
@@ -47,47 +51,44 @@ export default function DashboardScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text>
-      <Button title="Adicionar Gasto" onPress={() => navigation.navigate('AddExpense')} />
+
+      <View style={{ marginBottom: 16 }}>
+        <Button title="Adicionar Gasto" onPress={() => navigation.navigate('AddExpense')} />
+      </View>
+
+      <View style={{ marginBottom: 16 }}>
+        <Button title="Minha Conta" onPress={() => navigation.navigate('Account')} />
+      </View>
+
       <SectionList
         sections={expenses}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.item}>
             <Text>{item.description} - R$ {item.value.toFixed(2)}</Text>
-            <Button title="Editar" onPress={() => navigation.navigate('EditExpense', { expense: item })} />
-                <Button
-  title="Excluir"
-  color="red"
-  onPress={async () => {
-    try {
-      await deleteDoc(doc(db, 'expenses', item.id));
-    } catch (err) {
-      console.error('Erro ao deletar:', err);
-    }
-  }}
-/>
+            <Button
+              title="Editar"
+              onPress={() => navigation.navigate('EditExpense', { expense: item })}
+            />
+            <Button
+              title="Excluir"
+              color="red"
+              onPress={async () => {
+                try {
+                  await deleteDoc(doc(db, 'expenses', item.id));
+                } catch (err) {
+                  console.error('Erro ao deletar:', err);
+                }
+              }}
+            />
           </View>
         )}
         renderSectionHeader={({ section: { title } }) => (
           <Text style={styles.sectionHeader}>{title}</Text>
         )}
       />
-      <Button title="Minha Conta" onPress={() => navigation.navigate('Account')} />
-      <Button
-  title="Excluir"
-  color="red"
-  onPress={async () => {
-    try {
-      await deleteDoc(doc(db, 'expenses', item.id));
-    } catch (err) {
-      console.error('Erro ao deletar:', err);
-    }
-  }}
-/>
-
     </View>
   );
-  
 }
 
 const styles = StyleSheet.create({

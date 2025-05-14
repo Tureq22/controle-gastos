@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../configfirebase';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -36,8 +38,16 @@ export default function LoginScreen() {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Entrar" onPress={handleLogin} />
-      
 
+      {/* Botão de Esqueci a Senha */}
+      <Text style={styles.link} onPress={() => navigation.navigate('ForgotPassword')}>
+        Esqueci minha senha
+      </Text>
+
+      {/* Link para cadastro  */}
+      <Text style={styles.link} onPress={() => navigation.navigate('Register')}>
+        Não tem conta? Cadastre-se
+      </Text>
     </View>
   );
 }
@@ -63,6 +73,11 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 8,
+    textAlign: 'center',
+  },
+  link: {
+    marginTop: 16,
+    color: 'blue',
     textAlign: 'center',
   },
 });
